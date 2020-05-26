@@ -147,17 +147,25 @@ class LoginScreen extends React.Component {
         <TouchableOpacity style={styles.buttons} onPress={this.onLogin}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonsUnderLogin} onPress={() => {}}>
-          <Text style={styles.buttonTextForSignUp}>Sign up at</Text>
+        <Text style={styles.buttonTextForSignUp}>Sign up at</Text>
 
-          <Text
-            style={styles.buttonTextForSignUp2}
-            onPress={() =>
-              Linking.openURL('https://localmainstreet.com/BusinessLogin')
-            }>
-            localmainstreet.com
-          </Text>
-        </TouchableOpacity>
+        <Text
+          style={styles.buttonTextForSignUp2}
+          onPress={() =>
+            Linking.openURL('https://localmainstreet.com/BusinessLogin')
+          }>
+          localmainstreet.com
+        </Text>
+
+        <Text style={styles.buttonTextForSignUp}>
+          Forgot Password? Change it at
+        </Text>
+
+        <Text
+          style={styles.buttonTextForSignUp2}
+          onPress={() => Linking.openURL('https://localmainstreet.com/Login')}>
+          localmainstreet.com
+        </Text>
         {/* <TouchableOpacity
           style={styles.buttonsUnderLogin}
           onPress={() => {
