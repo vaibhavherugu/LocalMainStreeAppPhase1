@@ -48,15 +48,15 @@ class LoginScreen extends React.Component {
         payload,
       )
       .then((response) => {
-        console.log('##res', response);
+        //console.log('##res', response);
         if (response.status === 200) {
           AsyncStorage.setItem('token', JSON.stringify(response.data));
         }
         const tokenval = AsyncStorage.getItem('token');
-        console.log(tokenval);
+        //console.log(tokenval);
 
         if (!tokenval) {
-          console.log('##err', err);
+          //console.log('##err', err);
           alert('Incorrect login credentials. Please try again.');
         }
         emails = this.state.email;
@@ -64,10 +64,10 @@ class LoginScreen extends React.Component {
       })
       .catch(function (err) {
         if (err === 'Error: Request failed with status code 404') {
-          console.log('##err', err);
+          //console.log('##err', err);
           alert('Incorrect login credentials. Please try again.');
         } else {
-          console.log('##err', err);
+          //console.log('##err', err);
           alert('Incorrect login credentials. Please try again.');
         }
       });

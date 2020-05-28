@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Linking,
   Button,
+  Platform,
 } from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera as Camera} from 'react-native-camera';
@@ -34,6 +35,7 @@ class ScanScreen extends Component {
       translate: '50%',
       dollar: Number,
       dollarAmount: dollar,
+      translY: '-86%',
     };
   }
   onSuccess = async (e) => {
@@ -153,20 +155,22 @@ class ScanScreen extends Component {
           });
           this.setState({
             text: `${decryptedData.nameq}'s gift card balance is ${this.state.dollarAmount} dollars. Enter the amount paid to complete the transaction. If the gift card does not have enough money to complete the transaction, pay the gift card amount in the app and take the remaining from the customer.`,
-            translate: '18%',
+            translate: Platform.OS === 'ios' ? '18%' : 60,
           });
         })
         .catch((err) => {
+          alert(err);
           this.setState({
             view: 'none',
-            translate: '20%',
+            translate: Platform.OS === 'ios' ? '20%' : 60,
             text: `Invalid QRCode. If you believe this is a mistake, contact LocalMainStreet at +17328038154 or email info@localmainstreet.com.`,
           });
         });
     } catch (err) {
+      alert(err);
       this.setState({
         view: 'none',
-        translate: '20%',
+        translate: Platform.OS === 'ios' ? '20%' : 60,
         text: `Invalid QRCode. If you believe this is a mistake, contact LocalMainStreet at +17328038154 or email info@localmainstreet.com.`,
       });
     }
@@ -195,6 +199,7 @@ class ScanScreen extends Component {
         encrypto = JSON.stringify(res.data.encData);
       })
       .catch((err) => {
+        alert(err);
         alert('Oops! Something wrong happened. Please try again.');
       });
     await axios
@@ -250,10 +255,14 @@ class ScanScreen extends Component {
         },
       )
       .then((res) => {
-        console.log(res);
-        alert('Success!');
+        //console.log(res);
+        alert('Success! Payment processed!');
+        setTimeout(() => {
+          this.props.navigation.navigate('Login');
+        }, 1000);
       })
       .catch((err) => {
+        alert(err);
         alert('Oops! Something wrong happened. Please try again.');
       });
   };
@@ -271,16 +280,16 @@ class ScanScreen extends Component {
             top: this.state.translate,
             transform: [
               {
-                translateY: '-86%',
+                translateY: Platform.OS === 'ios' ? '-86%' : -60,
               },
             ],
           }}
-          showMarker
-          markerStyle={{
-            borderColor: 'red',
-            borderRadius: 10,
-            zIndex: 99999999,
-          }}
+          // showMarker
+          // markerStyle={{
+          //   borderColor: 'red',
+          //   borderRadius: 10,
+          //   zIndex: 99999999,
+          // }}
           topContent={
             <View
               style={{
@@ -296,6 +305,7 @@ class ScanScreen extends Component {
                   width: 340,
                   borderRadius: 15,
                   display: this.state.view,
+                  zIndex: 999999999,
                 }}
                 underlineColorAndroid="transparent"
                 placeholder="Amount Paid"

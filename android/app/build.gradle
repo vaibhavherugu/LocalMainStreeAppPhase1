@@ -130,10 +130,13 @@ android {
 
     defaultConfig {
         applicationId "com.localmainstreet"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        // minSdkVersion rootProject.ext.minSdkVersion
+        // targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        minSdkVersion 16 
+        targetSdkVersion 28
+        multiDexEnabled true
         missingDimensionStrategy 'react-native-camera', 'general'
     }
     splits {
@@ -189,6 +192,8 @@ android {
 }
 
 dependencies {
+    implementation 'com.android.support:multidex:1.0.3'
+    //also error fix
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //error fix
     implementation("com.google.android.gms:play-services-gcm:12.0.1") {exclude group: "com.google.android.gms"}
