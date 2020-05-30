@@ -24,6 +24,7 @@ var decryptedData;
 var encryptedData;
 var dollar;
 class ScanScreen extends Component {
+  //states
   constructor(props) {
     super(props);
     this.state = {
@@ -42,7 +43,7 @@ class ScanScreen extends Component {
       show: false,
     };
   }
-
+  //decrypts data and checks it: onSuccess
   onSuccess = async (e) => {
     this.setState({
       scaleYs: 0.1,
@@ -80,7 +81,7 @@ class ScanScreen extends Component {
           encrypto = JSON.stringify(res.data.encData);
         })
         .catch((err) => {
-          // alert('Oops! Something wrong happened. Please try again.');
+          console.log(err);
         });
       await axios
         .post(
@@ -94,13 +95,8 @@ class ScanScreen extends Component {
           decrypto = res.data.decryptedData;
         })
         .catch((err) => {
-          // alert('Oops! Something wrong happened. Please try again.');
+          console.log(err);
         });
-      // const head = {
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      // };
       var encryptedData2 = JSON.parse(data).encData;
       encryptedData = JSON.stringify(encryptedData2);
       if (encryptedData2.balance === 0) {
@@ -185,6 +181,7 @@ class ScanScreen extends Component {
   };
   handleAmount = (number) => {
     this.setState({amount: number});
+    //sets amount to what is put in
   };
   amountpaid = async () => {
     var encrypto;
@@ -194,9 +191,6 @@ class ScanScreen extends Component {
         'Content-Type': 'application/json',
       },
     };
-    // this.setState({
-    //   dollar: this.state.dollar - this.state.amount,
-    // });
     dollar = this.state.dollar - this.state.amount;
     this.setState({
       dollarAmount: dollar,
@@ -207,8 +201,9 @@ class ScanScreen extends Component {
         encrypto = JSON.stringify(res.data.encData);
       })
       .catch((err) => {
-        alert(err);
-        alert('Oops! Something wrong happened. Please try again.');
+        console.log(err);
+        //catches error
+        alert('Oops! Something went wrong. Please try again.');
       });
     await axios
       .post(
@@ -222,7 +217,7 @@ class ScanScreen extends Component {
         decrypto = res.data.decryptedData;
       })
       .catch((err) => {
-        alert('Oops! Something wrong happened. Please try again.');
+        alert('Oops! Something went wrong. Please try again.');
       });
     var data = {
       ...this.state.data,
@@ -238,10 +233,6 @@ class ScanScreen extends Component {
       alert('Warning: User has no money left on gift card.');
     }
     var encData;
-    // this.setState({
-    //   data: {
-    //   }
-    // })
     await axios
       .post(
         'https://localmainstreetbackend.herokuapp.com/app/payment/encryptionApp',
@@ -253,7 +244,7 @@ class ScanScreen extends Component {
         encData = JSON.stringify(res.data.encryptedData);
       })
       .catch((err) => {
-        alert('Oops! Something wrong happened. Please try again.');
+        alert('Oops! Something went wrong. Please try again.');
       });
     axios
       .patch(
@@ -263,20 +254,20 @@ class ScanScreen extends Component {
         },
       )
       .then((res) => {
-        //console.log(res);
+        console.log(res);
         alert('Success! Payment Processed!');
       })
       .catch((err) => {
         alert(err);
-        alert('Oops! Something wrong happened. Please try again.');
+        alert('Oops! Something went wrong. Please try again.');
       });
   };
   render() {
     const {navigate} = this.props.navigation;
-    // const nameq = this.state.nameq.map((name))
     return (
       <ScrollView>
         <View style={{}}>
+          //scanner
           <QRCodeScanner
             onRead={this.onSuccess}
             flashMode={Camera.Constants.FlashMode.auto}
@@ -290,13 +281,8 @@ class ScanScreen extends Component {
                 },
               ],
             }}
-            // showMarker
-            // markerStyle={{
-            //   borderColor: 'red',
-            //   borderRadius: 10,
-            //   zIndex: 99999999,
-            // }}
             topContent={
+              //put in the amounts and submit
               <View
                 style={{
                   display: this.state.view,
@@ -352,6 +338,7 @@ class ScanScreen extends Component {
                   }}>
                   Scroll down to see the amount details of the gift card.
                 </Text>
+                //space
                 <Text
                   style={{
                     display: Platform.OS === 'ios' ? 'none' : 'flex',
@@ -373,6 +360,7 @@ class ScanScreen extends Component {
             fadeIn={true}
             bottomContent={
               <ScrollView>
+                //space
                 <Text></Text>
                 <Text></Text>
                 <Text
@@ -383,6 +371,7 @@ class ScanScreen extends Component {
                   style={{
                     display: Platform.OS === 'ios' ? 'none' : 'flex',
                   }}></Text>
+                //customer amount info
                 <Text style={styles.texts}>{this.state.text}</Text>
               </ScrollView>
             }
@@ -392,6 +381,7 @@ class ScanScreen extends Component {
     );
   }
 }
+//styles
 const styles = StyleSheet.create({
   buttonText: {
     color: '#ffffff',
@@ -437,26 +427,17 @@ const styles = StyleSheet.create({
     color: '#000',
     fontFamily: Platform.OS === 'android' ? 'sans-serif-condensed' : 'Avenir',
   },
-  // buttonText: {
-  //   fontSize: 21,
-  //   color: 'rgb(0,122,255)',
-  //   fontFamily: Platform.OS === 'android' ? 'sans-serif-condensed' : 'Avenir',
-  // },
   buttonTouchable: {
     padding: 16,
   },
   background: {
     backgroundColor: '#ffffff',
-    // marginBottom: 100
   },
   texts: {
     fontSize: 15,
     textAlign: 'center',
     fontFamily: Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
-    // marginTop: Platform.OS === 'ios' ? '10' : 0,
-    // backgroundColor: Platform.OS === 'ios' ? 'unset' : '#DDDDDD',
     zIndex: 9999999999999,
-    // opacity: Platform.OS === 'ios' ? 1 : 0.8787253,
     marginBottom: 10,
   },
 });

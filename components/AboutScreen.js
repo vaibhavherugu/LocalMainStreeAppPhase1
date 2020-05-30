@@ -28,7 +28,9 @@ class AboutScreen extends React.Component {
           backgroundColor: '#ffffff',
         }}>
         <StatusBar barStyle="dark-content" />
+        //about us
         <Text
+          //text styles
           style={{
             textAlign: 'center',
             fontSize: 17,
@@ -83,6 +85,7 @@ class AboutScreen extends React.Component {
     );
   }
 }
+//styles
 const styles = StyleSheet.create({
   header: {
     fontSize: 24,

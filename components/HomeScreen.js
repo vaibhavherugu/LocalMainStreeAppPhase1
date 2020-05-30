@@ -25,6 +25,7 @@ class HomeScreen extends React.Component {
     return (
       <View style={styles.viewForSearch}>
         <StatusBar barStyle="dark-content" />
+        //buttons that transition to different places
         <TouchableOpacity
           style={styles.buttons}
           onPress={() => {
@@ -50,6 +51,7 @@ class HomeScreen extends React.Component {
     );
   }
 }
+//styles
 const styles = StyleSheet.create({
   header: {
     fontSize: 24,

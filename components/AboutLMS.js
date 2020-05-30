@@ -29,7 +29,9 @@ class AboutLMS extends React.Component {
           backgroundColor: '#ffffff',
         }}>
         <StatusBar barStyle="dark-content" />
+        //How to use LocalMainStreet's app
         <Text
+          //text styles
           style={{
             textAlign: 'center',
             fontSize: 17,
@@ -79,66 +81,11 @@ class AboutLMS extends React.Component {
             Image credit to https://icons8.com
           </Text>
         </View>
-        {/* <Text
-          style={{
-            textAlign: 'center',
-            fontSize: 17,
-            marginTop: 5,
-            fontFamily:
-              Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
-          }}>
-          Customers:
-        </Text>
-        <Text
-          style={{
-            textAlign: 'center',
-            fontSize: 17,
-            marginTop: 10,
-            fontFamily:
-              Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
-          }}>
-          1 - Register at localmainstreet.com
-        </Text>
-        <View style={{alignItems: 'center'}}>
-          <Image
-            style={{marginTop: 10, marginBottom: 10}}
-            source={require('./images/1.png')}
-          />
-        </View>
-        <Text
-          style={{
-            textAlign: 'center',
-            fontSize: 17,
-            marginTop: 5,
-            fontFamily:
-              Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
-          }}>
-          2 - Buy gift cards/vouchers from your favorite local businesses. You
-          will get QR Codes that will be sent to your email.
-        </Text>
-        <View style={{alignItems: 'center'}}>
-          <Image source={require('./images/2.png')} />
-        </View>
-        <Text
-          style={{
-            textAlign: 'center',
-            fontSize: 17,
-            marginTop: 5,
-            marginBottom: 10,
-            fontFamily:
-              Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
-          }}>
-          3 - When you use the gift cards, enjoy the service from the
-          businesses. When you are done, scan the QR codes with the owner. It's
-          as easy as that.
-        </Text>
-        <View style={{alignItems: 'center'}}>
-          <Image source={require('./images/4.png')} />
-        </View> */}
       </ScrollView>
     );
   }
 }
+//styles
 const styles = StyleSheet.create({
   header: {
     fontSize: 24,

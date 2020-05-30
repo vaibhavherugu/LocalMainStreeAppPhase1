@@ -18,12 +18,9 @@ import {
 import CheckBox from 'react-native-check-box';
 import AsyncStorage from '@react-native-community/async-storage';
 var emails;
-var usernamesave;
-var passwordsave;
-var passinput;
-var userinput;
 
 class LoginScreen extends React.Component {
+  //states
   constructor(props) {
     super(props);
     this.state = {
@@ -35,9 +32,9 @@ class LoginScreen extends React.Component {
       checked: false,
       rememberMe: false,
       showCheck: 'flex',
-      showCheck2: 'none',
     };
   }
+  //sets states to text in TextInputs
   handleUS = (text) => {
     this.setState({username: text});
   };
@@ -45,13 +42,33 @@ class LoginScreen extends React.Component {
     this.setState({password: text});
   };
 
+  toggleRememberMe = () => {
+    //checks whether the check mark is checked. If so, it does this.rememberUser();
+    this.setState({rememberMe: this.state.checked});
+
+    if (this.state.checked === true) {
+      this.rememberUser();
+    } else {
+    }
+  };
+
+  rememberUser = async () => {
+    try {
+      //it sets the async storage of the username and password and sets this.state.showCheck to none, which is called in the display prop of the check
+      await AsyncStorage.setItem('username', this.state.username);
+      await AsyncStorage.setItem('password', this.state.password);
+      this.setState({showCheck: 'none'});
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   getRememberedUser = async () => {
     try {
+      //getting the remembered user from async storage. If it is not null, it sets username and password to it and returns it
       const username = await AsyncStorage.getItem('username');
       const password = await AsyncStorage.getItem('password');
       if (username !== null && password != null) {
-        // We have username!!
-
         const stuff = {
           username: username,
           password: password,
@@ -64,6 +81,7 @@ class LoginScreen extends React.Component {
   };
 
   async componentDidMount() {
+    //gets remembered user and sets states. This is a componentDidMount, so it happens as soon as the code starts
     const username = (await this.getRememberedUser()).username;
     const password = (await this.getRememberedUser()).password;
     this.setState({
@@ -71,31 +89,15 @@ class LoginScreen extends React.Component {
       password: password || '',
       rememberMe: username ? true : false,
     });
+    //if its not null, then it gets rid of the remember me check by setting a state to none. The state is called in display of the check
     if (this.state.username !== '' && this.state.password != '') {
-      this.setState({showCheck: 'none', showCheck2: 'flex'});
+      this.setState({showCheck: 'none'});
     }
   }
 
-  toggleRememberMe = () => {
-    this.setState({rememberMe: this.state.checked});
-
-    if (this.state.checked === true) {
-      //user wants to be remembered.
-      this.rememberUser();
-    } else {
-    }
-  };
-  rememberUser = async () => {
-    try {
-      await AsyncStorage.setItem('username', this.state.username);
-      await AsyncStorage.setItem('password', this.state.password);
-      this.setState({showCheck: 'none'});
-    } catch (error) {
-      alert(error);
-    }
-  };
   onLogin = async (e) => {
     e.preventDefault();
+    //sends this.state.username and password and posts to check
     const payload = {
       emailb: this.state.username,
       passwordb: this.state.password,
@@ -106,86 +108,39 @@ class LoginScreen extends React.Component {
         payload,
       )
       .then((response) => {
-        //console.log('##res', response);
+        //gets the response status and sets the token
+        console.log('##res', response);
         if (response.status === 200) {
           AsyncStorage.setItem('token', JSON.stringify(response.data));
         }
+        //gets the tokenval-if there is no tokenval, then it is incorrect login details and ot alerts
         const tokenval = AsyncStorage.getItem('token');
-        //console.log(tokenval);
+        console.log(tokenval);
 
         if (!tokenval) {
-          //console.log('##err', err);
+          console.log('##err', err);
           alert('Incorrect login credentials. Please try again.');
         }
-        const usersave = JSON.stringify(this.state.username);
-        const passsave = JSON.stringify(this.state.password);
-        // AsyncStorage.setItem('username', usersave);
-        // AsyncStorage.setItem('password', passsave);
+        //since it has the tokenval, it does this.toggleRememberMe(). Then it navigates to LocalMainStreet, which is the homepage
         this.toggleRememberMe();
         this.props.navigation.navigate('LocalMainStreet');
       })
       .catch(function (err) {
+        //error, could be incorrect login credentials
         if (err === 'Error: Request failed with status code 404') {
-          //console.log('##err', err);
           alert('Incorrect login credentials. Please try again.');
         } else {
-          //console.log('##err', err);
           alert('Incorrect login credentials. Please try again.');
         }
       });
-    // await axios
-    //   .get(
-    //     'https://localmainstreetbackend.herokuapp.com/app/LoginAPI/posts',
-    //   )
-    //   .then((response) => {
-    //     if (response.email === this.state.email) {
-    //       const name = {
-    //         fname: response.fname,
-    //         lname: response.lname,
-    //       };
-    //       console.log('##res', response);
-    //       setTimeout(() => {
-    //         this.setState({
-    //           fname: name.fname,
-    //           lname: name.lname,
-    //         });
-    //       }, 1000);
-    //       console.log('##names', this.state.fname, this.state.lname);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     alert(err);
-    //   });
   };
 
-  // saveName = async (e) => {
-  //   e.preventDefault();
-  //   await axios
-  //     .get('https://localmainstreetbackend.herokuapp.com/app/LoginAPI/posts')
-  //     .then((response) => {
-  //       const data = response.data;
-  //       console.log(response);
-  //       setTimeout(() => {
-  //         this.setState({
-  //           fname: data.fname,
-  //           lname: data.lname,
-  //         });
-  //       }, 1000);
-  //       alert(this.state.fname);
-  //       alert(this.state.lname);
-  //       console.log('##names', this.state.fname, this.state.lname);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       alert(err);
-  //     });
-  // };
   render() {
     const {navigate} = this.props.navigation;
     return (
       <View style={styles.viewForSearch}>
         <StatusBar barStyle="dark-content" />
+        //header, text fields and check mark
         <Text style={styles.header}>Login</Text>
         <TextInput
           style={styles.input2}
@@ -196,7 +151,6 @@ class LoginScreen extends React.Component {
           defaultValue={this.state.username}
           onChangeText={this.handleUS}
         />
-
         <TextInput
           style={styles.input2}
           underlineColorAndroid="transparent"
@@ -207,23 +161,25 @@ class LoginScreen extends React.Component {
           defaultValue={this.state.password}
           onChangeText={this.handlePW}
         />
-
         <TouchableOpacity style={styles.buttons} onPress={this.onLogin}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         <View
           style={{
             flexDirection: 'row',
+            //metioned earlier
             display: this.state.showCheck,
           }}>
           <CheckBox
             style={{
+              //different styles for ios and android
               marginTop: Platform.OS === 'android' ? -63 : 0,
               marginBottom: Platform.OS === 'android' ? -63 : 0,
             }}
             isChecked={this.state.checked}
             leftText={'Check Box'}
             onClick={() => {
+              //can be toggled, state is called in this.toggleRememberMe()
               if (this.state.checked === true) {
                 this.setState({
                   checked: false,
@@ -244,8 +200,8 @@ class LoginScreen extends React.Component {
             Remember Me
           </Text>
         </View>
+        //Links and text
         <Text style={styles.buttonTextForSignUp}>Sign up at</Text>
-
         <Text
           style={styles.buttonTextForSignUp2}
           onPress={() =>
@@ -253,23 +209,14 @@ class LoginScreen extends React.Component {
           }>
           localmainstreet.com
         </Text>
-
         <Text style={styles.buttonTextForSignUp}>
           Forgot Password? Change it at
         </Text>
-
         <Text
           style={styles.buttonTextForSignUp2}
           onPress={() => Linking.openURL('https://localmainstreet.com/Login')}>
           localmainstreet.com
         </Text>
-        {/* <TouchableOpacity
-          style={styles.buttonsUnderLogin}
-          onPress={() => {
-            navigate('Reset Password');
-          }}>
-          <Text style={styles.buttonTextForSignUp}>Forgot Your Password?</Text>
-        </TouchableOpacity> */}
         <Text style={styles.buttonTextForSignUp}>Need Help?</Text>
         <Text style={styles.buttonTextForSignUp}>
           Contact us at info@localmainstreet.com
@@ -278,6 +225,7 @@ class LoginScreen extends React.Component {
     );
   }
 }
+//styles
 const styles = StyleSheet.create({
   header: {
     fontSize: 24,
