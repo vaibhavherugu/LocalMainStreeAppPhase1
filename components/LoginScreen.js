@@ -14,9 +14,9 @@ import {
   Text,
   StatusBar,
   Linking,
-  AsyncStorage,
 } from 'react-native';
 import CheckBox from 'react-native-check-box';
+import AsyncStorage from '@react-native-community/async-storage';
 var emails;
 var usernamesave;
 var passwordsave;
@@ -43,19 +43,6 @@ class LoginScreen extends React.Component {
   };
   handlePW = (text) => {
     this.setState({password: text});
-  };
-
-  forgetUser = async () => {
-    try {
-      await AsyncStorage.removeItem('username');
-      await AsyncStorage.removeItem('password');
-      this.setState({
-        username: '',
-        password: '',
-      });
-    } catch (error) {
-      alert(err);
-    }
   };
 
   getRememberedUser = async () => {
@@ -102,6 +89,7 @@ class LoginScreen extends React.Component {
     try {
       await AsyncStorage.setItem('username', this.state.username);
       await AsyncStorage.setItem('password', this.state.password);
+      this.setState({showCheck: 'none'});
     } catch (error) {
       alert(error);
     }
@@ -251,21 +239,10 @@ class LoginScreen extends React.Component {
             style={{
               marginTop: 3,
               fontFamily:
-                Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
+                Platform.OS === 'android' ? 'sans-serif-condensed' : 'Avenir',
             }}>
             Remember Me
           </Text>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            display: this.state.showCheck2,
-          }}>
-          <TouchableOpacity
-            style={styles.buttons2}
-            onPress={(checked) => this.forgetUser(checked)}>
-            <Text style={styles.buttonText}>Forget Me</Text>
-          </TouchableOpacity>
         </View>
         <Text style={styles.buttonTextForSignUp}>Sign up at</Text>
 
@@ -349,19 +326,19 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#ffffff',
-    fontFamily: Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
+    fontFamily: Platform.OS === 'android' ? 'sans-serif-condensed' : 'Avenir',
   },
   buttonTextForSignUp: {
     color: '#000000',
     textAlign: 'center',
-    fontFamily: Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
+    fontFamily: Platform.OS === 'android' ? 'sans-serif-condensed' : 'Avenir',
   },
   buttonTextForSignUp2: {
     color: '#000000',
     textAlign: 'center',
     color: '#03b1fc',
     textDecorationLine: 'underline',
-    fontFamily: Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
+    fontFamily: Platform.OS === 'android' ? 'sans-serif-condensed' : 'Avenir',
   },
   buttonsUnderLogin: {
     margin: 7,

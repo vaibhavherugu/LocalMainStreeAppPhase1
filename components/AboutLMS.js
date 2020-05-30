@@ -47,9 +47,9 @@ class AboutLMS extends React.Component {
             fontSize: 17,
             marginTop: 10,
             fontFamily:
-              Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
+              Platform.OS === 'android' ? 'sans-serif-condensed' : 'Avenir',
           }}>
-          Register at localmainstreet.com. Enter payment info.
+          Register at localmainstreet.com. Enter your payment info.
         </Text>
         <View style={{alignItems: 'center'}}>
           <Image source={require('./images/7.png')} />
@@ -61,7 +61,7 @@ class AboutLMS extends React.Component {
             marginTop: 5,
             marginBottom: 10,
             fontFamily:
-              Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
+              Platform.OS === 'android' ? 'sans-serif-condensed' : 'Avenir',
           }}>
           When a customer walks in with a QR code, scan it. Enter the amount the
           customer owes click submit. You're done!

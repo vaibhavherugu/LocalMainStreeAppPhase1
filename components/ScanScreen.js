@@ -322,14 +322,23 @@ class ScanScreen extends Component {
                   onChangeText={this.handleAmount}
                 />
                 <Text></Text>
-                <Button
+                <TouchableOpacity
                   title="Submit"
                   style={{
-                    display: this.state.view,
+                    height: 40,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginBottom: 5,
                     width: 340,
+                    opacity: 1,
+                    backgroundColor: '#000000',
+                    borderRadius: 15,
                     zIndex: 999999999,
+                    display: this.state.view,
                   }}
-                  onPress={this.amountpaid}></Button>
+                  onPress={this.amountpaid}>
+                  <Text style={styles.buttonText}>Submit</Text>
+                </TouchableOpacity>
                 <Text
                   style={{
                     display: Platform.OS === 'ios' ? 'none' : 'flex',
@@ -338,7 +347,7 @@ class ScanScreen extends Component {
                     zIndex: 9999999999999,
                     fontFamily:
                       Platform.OS === 'android'
-                        ? 'sans-serif-medium'
+                        ? 'sans-serif-condensed'
                         : 'Avenir',
                   }}>
                   Scroll down to see the amount details of the gift card.
@@ -384,10 +393,28 @@ class ScanScreen extends Component {
   }
 }
 const styles = StyleSheet.create({
+  buttonText: {
+    color: '#ffffff',
+    fontFamily: Platform.OS === 'android' ? 'sans-serif-condensed' : 'Avenir',
+    textAlign: 'center',
+  },
+  buttons: {
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 5,
+    width: 340,
+    opacity: 1,
+    backgroundColor: '#000000',
+    borderRadius: 15,
+    marginLeft: 500,
+    marginRight: 500,
+    zIndex: 999999999,
+  },
   text: {
     textAlign: 'center',
     fontSize: 15,
-    fontFamily: Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
+    fontFamily: Platform.OS === 'android' ? 'sans-serif-condensed' : 'Avenir',
   },
   input2: {
     marginTop: 15,
@@ -403,18 +430,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
     padding: 32,
     color: '#000000',
-    fontFamily: Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
+    fontFamily: Platform.OS === 'android' ? 'sans-serif-condensed' : 'Avenir',
   },
   textBold: {
     fontWeight: '500',
     color: '#000',
-    fontFamily: Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
+    fontFamily: Platform.OS === 'android' ? 'sans-serif-condensed' : 'Avenir',
   },
-  buttonText: {
-    fontSize: 21,
-    color: 'rgb(0,122,255)',
-    fontFamily: Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
-  },
+  // buttonText: {
+  //   fontSize: 21,
+  //   color: 'rgb(0,122,255)',
+  //   fontFamily: Platform.OS === 'android' ? 'sans-serif-condensed' : 'Avenir',
+  // },
   buttonTouchable: {
     padding: 16,
   },

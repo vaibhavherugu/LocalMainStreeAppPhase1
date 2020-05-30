@@ -34,7 +34,7 @@ class AboutScreen extends React.Component {
             fontSize: 17,
             marginTop: 20,
             fontFamily:
-              Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
+              Platform.OS === 'android' ? 'sans-serif-condensed' : 'Avenir',
           }}>
           Back in late March, we were hit with a global pandemic caused due to
           the Coronavirus. As the crisis started to unfold, we saw our schools
@@ -50,7 +50,7 @@ class AboutScreen extends React.Component {
             fontSize: 17,
             marginTop: 30,
             fontFamily:
-              Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
+              Platform.OS === 'android' ? 'sans-serif-condensed' : 'Avenir',
           }}>
           Here at LocalMainStreet we allow customers to buy/share gift cards and
           vouchers from your favorite local businesses and redeem it later. This
@@ -64,10 +64,20 @@ class AboutScreen extends React.Component {
             fontSize: 17,
             marginTop: 30,
             fontFamily:
-              Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
+              Platform.OS === 'android' ? 'sans-serif-condensed' : 'Avenir',
           }}>
           In the future, these local businesses can offer their own gift cards
-          just like Visa or Amazon would do. United we stand, together we win!
+          just like Visa or Amazon would do.
+        </Text>
+        <Text
+          style={{
+            textAlign: 'center',
+            fontSize: 17,
+            marginTop: 40,
+            fontFamily:
+              Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
+          }}>
+          United we stand, together we win!
         </Text>
       </ScrollView>
     );
