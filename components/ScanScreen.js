@@ -1,4 +1,5 @@
 'use strict';
+import ScrollViewIndicator from 'react-native-scroll-indicator';
 import React, {Component} from 'react';
 import axios from 'axios';
 import {
@@ -11,6 +12,7 @@ import {
   Linking,
   Button,
   Platform,
+  Modal,
 } from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera as Camera} from 'react-native-camera';
@@ -36,9 +38,15 @@ class ScanScreen extends Component {
       dollar: Number,
       dollarAmount: dollar,
       translY: '-86%',
+      scaleYs: 1,
+      show: false,
     };
   }
+
   onSuccess = async (e) => {
+    this.setState({
+      scaleYs: 0.1,
+    });
     const data = e.data;
     mainId = JSON.parse(data)._id;
     this.setState({
@@ -163,7 +171,7 @@ class ScanScreen extends Component {
           this.setState({
             view: 'none',
             translate: Platform.OS === 'ios' ? '20%' : 60,
-            text: `Invalid QRCode. If you believe this is a mistake, contact LocalMainStreet at +17328038154 or email info@localmainstreet.com.`,
+            text: `Invalid QRCode. If you believe this is a mistake, contact LocalMainStreet at info@localmainstreet.com.`,
           });
         });
     } catch (err) {
@@ -171,7 +179,7 @@ class ScanScreen extends Component {
       this.setState({
         view: 'none',
         translate: Platform.OS === 'ios' ? '20%' : 60,
-        text: `Invalid QRCode. If you believe this is a mistake, contact LocalMainStreet at +17328038154 or email info@localmainstreet.com.`,
+        text: `Invalid QRCode. If you believe this is a mistake, contact LocalMainStreet at info@localmainstreet.com.`,
       });
     }
   };
@@ -256,10 +264,7 @@ class ScanScreen extends Component {
       )
       .then((res) => {
         //console.log(res);
-        alert('Success! Payment processed!');
-        setTimeout(() => {
-          this.props.navigation.navigate('Login');
-        }, 1000);
+        alert('Success! Payment Processed!');
       })
       .catch((err) => {
         alert(err);
@@ -271,63 +276,109 @@ class ScanScreen extends Component {
     // const nameq = this.state.nameq.map((name))
     return (
       <ScrollView>
-        <QRCodeScanner
-          onRead={this.onSuccess}
-          flashMode={Camera.Constants.FlashMode.auto}
-          reactivate={true}
-          reactivateTimeout={2000}
-          containerStyle={{
-            top: this.state.translate,
-            transform: [
-              {
-                translateY: Platform.OS === 'ios' ? '-86%' : -60,
-              },
-            ],
-          }}
-          // showMarker
-          // markerStyle={{
-          //   borderColor: 'red',
-          //   borderRadius: 10,
-          //   zIndex: 99999999,
-          // }}
-          topContent={
-            <View
-              style={{
-                display: this.state.view,
-              }}>
-              <TextInput
-                style={{
-                  marginTop: 15,
-                  height: 40,
-                  borderColor: '#000000',
-                  borderWidth: 1,
-                  color: '#000000',
-                  width: 340,
-                  borderRadius: 15,
-                  display: this.state.view,
-                  zIndex: 999999999,
-                }}
-                underlineColorAndroid="transparent"
-                placeholder="Amount Paid"
-                placeholderTextColor="#000000"
-                autoCapitalize="none"
-                onChangeText={this.handleAmount}
-              />
-              <Button
-                title="Submit"
+        <View style={{}}>
+          <QRCodeScanner
+            onRead={this.onSuccess}
+            flashMode={Camera.Constants.FlashMode.auto}
+            reactivate={true}
+            reactivateTimeout={2000}
+            containerStyle={{
+              top: this.state.translate,
+              transform: [
+                {
+                  translateY: Platform.OS === 'ios' ? '-120%' : -60,
+                },
+              ],
+            }}
+            // showMarker
+            // markerStyle={{
+            //   borderColor: 'red',
+            //   borderRadius: 10,
+            //   zIndex: 99999999,
+            // }}
+            topContent={
+              <View
                 style={{
                   display: this.state.view,
-                }}
-                onPress={this.amountpaid}></Button>
-            </View>
-          }
-          fadeIn={true}
-          bottomContent={
-            <ScrollView>
-              <Text style={styles.texts}>{this.state.text}</Text>
-            </ScrollView>
-          }
-        />
+                }}>
+                <TextInput
+                  style={{
+                    marginTop: 15,
+                    height: 40,
+                    borderColor: '#000000',
+                    borderWidth: 1,
+                    color: '#000000',
+                    width: 340,
+                    borderRadius: 15,
+                    display: this.state.view,
+                    zIndex: 999999999,
+                  }}
+                  contextMenuHidden={true}
+                  keyboardType={'numeric'}
+                  underlineColorAndroid="transparent"
+                  placeholder="Amount Paid"
+                  placeholderTextColor="#000000"
+                  autoCapitalize="none"
+                  onChangeText={this.handleAmount}
+                />
+                <Text></Text>
+                <Button
+                  title="Submit"
+                  style={{
+                    display: this.state.view,
+                    width: 340,
+                    zIndex: 999999999,
+                  }}
+                  onPress={this.amountpaid}></Button>
+                <Text
+                  style={{
+                    display: Platform.OS === 'ios' ? 'none' : 'flex',
+                    fontSize: 15,
+                    textAlign: 'center',
+                    zIndex: 9999999999999,
+                    fontFamily:
+                      Platform.OS === 'android'
+                        ? 'sans-serif-medium'
+                        : 'Avenir',
+                  }}>
+                  Scroll down to see the amount details of the gift card.
+                </Text>
+                <Text
+                  style={{
+                    display: Platform.OS === 'ios' ? 'none' : 'flex',
+                  }}></Text>
+                <Text
+                  style={{
+                    display: Platform.OS === 'ios' ? 'none' : 'flex',
+                  }}></Text>
+                <Text
+                  style={{
+                    display: Platform.OS === 'ios' ? 'none' : 'flex',
+                  }}></Text>
+                <Text
+                  style={{
+                    display: Platform.OS === 'ios' ? 'none' : 'flex',
+                  }}></Text>
+              </View>
+            }
+            fadeIn={true}
+            bottomContent={
+              <ScrollView>
+                <Text></Text>
+                <Text></Text>
+                <Text
+                  style={{
+                    display: Platform.OS === 'ios' ? 'none' : 'flex',
+                  }}></Text>
+                <Text
+                  style={{
+                    display: Platform.OS === 'ios' ? 'none' : 'flex',
+                  }}></Text>
+                <Text style={styles.texts}>{this.state.text}</Text>
+              </ScrollView>
+            }
+          />
+        </View>
       </ScrollView>
     );
   }
@@ -336,6 +387,7 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     fontSize: 15,
+    fontFamily: Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
   },
   input2: {
     marginTop: 15,
@@ -351,14 +403,17 @@ const styles = StyleSheet.create({
     fontSize: 18,
     padding: 32,
     color: '#000000',
+    fontFamily: Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
   },
   textBold: {
     fontWeight: '500',
     color: '#000',
+    fontFamily: Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
   },
   buttonText: {
     fontSize: 21,
     color: 'rgb(0,122,255)',
+    fontFamily: Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
   },
   buttonTouchable: {
     padding: 16,
@@ -370,7 +425,12 @@ const styles = StyleSheet.create({
   texts: {
     fontSize: 15,
     textAlign: 'center',
-    marginTop: 10,
+    fontFamily: Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
+    // marginTop: Platform.OS === 'ios' ? '10' : 0,
+    // backgroundColor: Platform.OS === 'ios' ? 'unset' : '#DDDDDD',
+    zIndex: 9999999999999,
+    // opacity: Platform.OS === 'ios' ? 1 : 0.8787253,
+    marginBottom: 10,
   },
 });
 export default ScanScreen;

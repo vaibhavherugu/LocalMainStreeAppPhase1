@@ -4,6 +4,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import LoginScreen from './components/LoginScreen';
 import ScanScreen from './components/ScanScreen';
+import HomeScreen from './components/HomeScreen';
+import AboutScreen from './components/AboutScreen';
+import AboutLMS from './components/AboutLMS';
 
 const Stack = createStackNavigator();
 
@@ -16,6 +19,21 @@ class App extends React.Component {
             name="Scan A Gift Card"
             component={ScanScreen}
             options={{title: 'Scan A Gift Card'}}
+          />
+          <Stack.Screen
+            name="How It Works"
+            component={AboutLMS}
+            options={{title: 'How It Works'}}
+          />
+          <Stack.Screen
+            name="About"
+            component={AboutScreen}
+            options={{title: 'About'}}
+          />
+          <Stack.Screen
+            name="LocalMainStreet"
+            component={HomeScreen}
+            options={{title: 'LocalMainStreet'}}
           />
           <Stack.Screen
             name="Login"
