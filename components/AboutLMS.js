@@ -55,7 +55,7 @@ class AboutLMS extends React.Component {
           Register at localmainstreet.com. Enter your payment info.
         </Text>
         <View style={{ alignItems: 'center' }}>
-          <Image source="https://img.icons8.com/cotton/64/000000/add-male-user--v2.png" />
+          <Image style={{ width: 60, height: 60 }} source={{ uri: "https://img.icons8.com/cotton/64/000000/add-male-user--v2.png" }} />
         </View>
         <Text
           style={{
@@ -67,12 +67,12 @@ class AboutLMS extends React.Component {
               Platform.OS === 'android' ? 'sans-serif-condensed' : 'Avenir',
           }}>
           When a customer walks in with a QR code, scan it. Enter the amount the
-          customer owes click submit. You're done!
+          customer owes and click submit. You're done!
         </Text>
         <View style={{ alignItems: 'center' }}>
           <Image
-            style={{ marginBottom: 80 }}
-            source="https://img.icons8.com/wired/64/000000/qr-code.png"
+            style={{ marginBottom: 80, width: 60, height: 60 }}
+            source={{ uri: "https://img.icons8.com/wired/64/000000/qr-code.png" }}
           />
           <Text
             style={{
