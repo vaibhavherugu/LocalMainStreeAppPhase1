@@ -1,7 +1,7 @@
 import * as React from 'react';
 import 'react-native-gesture-handler';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './components/LoginScreen';
 import ScanScreen from './components/ScanScreen';
 import HomeScreen from './components/HomeScreen';
@@ -18,27 +18,27 @@ class App extends React.Component {
           <Stack.Screen
             name="Scan A Gift Card"
             component={ScanScreen}
-            options={{title: 'Scan A Gift Card'}}
+            options={{ title: 'Scan A Gift Card' }}
           />
           <Stack.Screen
             name="How It Works"
             component={AboutLMS}
-            options={{title: 'How It Works'}}
+            options={{ title: 'How It Works' }}
           />
           <Stack.Screen
             name="About"
             component={AboutScreen}
-            options={{title: 'About'}}
+            options={{ title: 'About' }}
           />
           <Stack.Screen
             name="LocalMainStreet"
             component={HomeScreen}
-            options={{title: 'LocalMainStreet'}}
+            options={{ title: 'LocalMainStreet' }}
           />
           <Stack.Screen
             name="Login"
             component={LoginScreen}
-            options={{title: 'Login'}}
+            options={{ title: 'Login' }}
           />
         </Stack.Navigator>
       </NavigationContainer>

@@ -21,7 +21,7 @@ var emails;
 
 class AboutScreen extends React.Component {
   render() {
-    const {navigate} = this.props.navigation;
+    const { navigate } = this.props.navigation;
     return (
       //about us
       <ScrollView
@@ -31,7 +31,7 @@ class AboutScreen extends React.Component {
         <StatusBar barStyle="dark-content" />
 
         <Text
-          //text styles
+          //styles for text
           style={{
             textAlign: 'center',
             fontSize: 17,

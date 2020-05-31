@@ -22,7 +22,7 @@ var emails;
 
 class AboutLMS extends React.Component {
   render() {
-    const {navigate} = this.props.navigation;
+    const { navigate } = this.props.navigation;
     return (
       //How to use LocalMainStreet's app
       <ScrollView
@@ -54,8 +54,8 @@ class AboutLMS extends React.Component {
           }}>
           Register at localmainstreet.com. Enter your payment info.
         </Text>
-        <View style={{alignItems: 'center'}}>
-          <Image source={require('./images/7.png')} />
+        <View style={{ alignItems: 'center' }}>
+          <Image source="https://img.icons8.com/cotton/64/000000/add-male-user--v2.png" />
         </View>
         <Text
           style={{
@@ -69,10 +69,10 @@ class AboutLMS extends React.Component {
           When a customer walks in with a QR code, scan it. Enter the amount the
           customer owes click submit. You're done!
         </Text>
-        <View style={{alignItems: 'center'}}>
+        <View style={{ alignItems: 'center' }}>
           <Image
-            style={{marginBottom: 80}}
-            source={require('./images/4.png')}
+            style={{ marginBottom: 80 }}
+            source="https://img.icons8.com/wired/64/000000/qr-code.png"
           />
           <Text
             style={{

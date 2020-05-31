@@ -1,6 +1,6 @@
 'use strict';
 import ScrollViewIndicator from 'react-native-scroll-indicator';
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 import {
   View,
@@ -15,8 +15,8 @@ import {
   Modal,
 } from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import {RNCamera as Camera} from 'react-native-camera';
-import {ScrollView} from 'react-native-gesture-handler';
+import { RNCamera as Camera } from 'react-native-camera';
+import { ScrollView } from 'react-native-gesture-handler';
 var id;
 var mainId;
 var databasecheck;
@@ -135,7 +135,7 @@ class ScanScreen extends Component {
             axios
               .delete(
                 'https://localmainstreetbackend.herokuapp.com/app/qrcode/' +
-                  mainId,
+                mainId,
               )
               .then((res) => {
                 console.log(JSON.stringify(res));
@@ -182,7 +182,7 @@ class ScanScreen extends Component {
     }
   };
   handleAmount = (number) => {
-    this.setState({amount: number});
+    this.setState({ amount: number });
     //sets amount to what is put in
   };
   amountpaid = async () => {
@@ -267,10 +267,10 @@ class ScanScreen extends Component {
       });
   };
   render() {
-    const {navigate} = this.props.navigation;
+    const { navigate } = this.props.navigation;
     return (
       //scanner
-      <ScrollView style={{backgroundColor: '#ffffff'}}>
+      <ScrollView style={{ backgroundColor: '#ffffff' }}>
         <View style={{}}>
           <QRCodeScanner
             onRead={this.onSuccess}
