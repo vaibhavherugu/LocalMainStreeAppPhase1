@@ -24,12 +24,13 @@ class AboutLMS extends React.Component {
   render() {
     const {navigate} = this.props.navigation;
     return (
+      //How to use LocalMainStreet's app
       <ScrollView
         style={{
           backgroundColor: '#ffffff',
         }}>
         <StatusBar barStyle="dark-content" />
-        //How to use LocalMainStreet's app
+
         <Text
           //text styles
           style={{
@@ -76,7 +77,7 @@ class AboutLMS extends React.Component {
           <Text
             style={{
               textAlign: 'center',
-              marginTop: 150,
+              marginTop: 100,
             }}>
             Image credit to https://icons8.com
           </Text>

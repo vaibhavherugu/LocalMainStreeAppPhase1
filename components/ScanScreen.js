@@ -41,6 +41,7 @@ class ScanScreen extends Component {
       translY: '-86%',
       scaleYs: 1,
       show: false,
+      clear: '',
     };
   }
   //decrypts data and checks it: onSuccess
@@ -105,10 +106,10 @@ class ScanScreen extends Component {
             'https://localmainstreetbackend.herokuapp.com/app/qrcode/' + mainId,
           )
           .then((res) => {
-            alert(JSON.stringify(res));
+            console.log(JSON.stringify(res));
           })
           .catch((err) => {
-            alert(err);
+            console.log(err);
           });
         return 0;
       }
@@ -137,10 +138,10 @@ class ScanScreen extends Component {
                   mainId,
               )
               .then((res) => {
-                alert(JSON.stringify(res));
+                console.log(JSON.stringify(res));
               })
               .catch((err) => {
-                alert(err);
+                console.log(err);
               });
             return 0;
           } else if (decrypto.balance < 0) {
@@ -158,12 +159,13 @@ class ScanScreen extends Component {
             dollarAmount: dollar,
           });
           this.setState({
-            text: `${decryptedData.nameq}'s gift card balance is ${this.state.dollarAmount} dollars. Enter the amount paid to complete the transaction. If the gift card does not have enough money to complete the transaction, pay the gift card amount in the app and take the remaining from the customer.`,
+            text: `${decryptedData.nameq}'s gift card balance is $${this.state.dollarAmount}. Enter the amount paid to complete the transaction. If the gift card does not have enough money to complete the transaction, pay the gift card amount in the app and take the remaining from the customer.`,
             translate: Platform.OS === 'ios' ? '18%' : 60,
+            clear: '',
           });
         })
         .catch((err) => {
-          alert(err);
+          console.log(err);
           this.setState({
             view: 'none',
             translate: Platform.OS === 'ios' ? '20%' : 60,
@@ -171,7 +173,7 @@ class ScanScreen extends Component {
           });
         });
     } catch (err) {
-      alert(err);
+      console.log(err);
       this.setState({
         view: 'none',
         translate: Platform.OS === 'ios' ? '20%' : 60,
@@ -231,6 +233,9 @@ class ScanScreen extends Component {
     }
     if (data.balance === 0) {
       alert('Warning: User has no money left on gift card.');
+      setTimeout(() => {
+        console.log('timeout');
+      }, 2000000000000000);
     }
     var encData;
     await axios
@@ -258,16 +263,15 @@ class ScanScreen extends Component {
         alert('Success! Payment Processed!');
       })
       .catch((err) => {
-        alert(err);
         alert('Oops! Something went wrong. Please try again.');
       });
   };
   render() {
     const {navigate} = this.props.navigation;
     return (
-      <ScrollView>
+      //scanner
+      <ScrollView style={{backgroundColor: '#ffffff'}}>
         <View style={{}}>
-          //scanner
           <QRCodeScanner
             onRead={this.onSuccess}
             flashMode={Camera.Constants.FlashMode.auto}
@@ -338,7 +342,7 @@ class ScanScreen extends Component {
                   }}>
                   Scroll down to see the amount details of the gift card.
                 </Text>
-                //space
+
                 <Text
                   style={{
                     display: Platform.OS === 'ios' ? 'none' : 'flex',
@@ -359,9 +363,8 @@ class ScanScreen extends Component {
             }
             fadeIn={true}
             bottomContent={
+              //space
               <ScrollView>
-                //space
-                <Text></Text>
                 <Text></Text>
                 <Text
                   style={{
@@ -371,8 +374,15 @@ class ScanScreen extends Component {
                   style={{
                     display: Platform.OS === 'ios' ? 'none' : 'flex',
                   }}></Text>
-                //customer amount info
-                <Text style={styles.texts}>{this.state.text}</Text>
+                <Text
+                  style={{
+                    display: Platform.OS === 'ios' ? 'none' : 'flex',
+                  }}></Text>
+
+                <Text //customer amount info
+                  style={styles.texts}>
+                  {this.state.text}
+                </Text>
               </ScrollView>
             }
           />

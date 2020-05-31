@@ -23,12 +23,13 @@ class AboutScreen extends React.Component {
   render() {
     const {navigate} = this.props.navigation;
     return (
+      //about us
       <ScrollView
         style={{
           backgroundColor: '#ffffff',
         }}>
         <StatusBar barStyle="dark-content" />
-        //about us
+
         <Text
           //text styles
           style={{
@@ -75,9 +76,11 @@ class AboutScreen extends React.Component {
           style={{
             textAlign: 'center',
             fontSize: 17,
-            marginTop: 40,
+            marginTop: 0,
             fontFamily:
-              Platform.OS === 'android' ? 'sans-serif-medium' : 'Avenir',
+              Platform.OS === 'android'
+                ? 'sans-serif-medium'
+                : 'AvenirNext-Bold',
           }}>
           United we stand, together we win!
         </Text>

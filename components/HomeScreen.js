@@ -23,9 +23,10 @@ class HomeScreen extends React.Component {
   render() {
     const {navigate} = this.props.navigation;
     return (
+      //buttons that transition to different places
       <View style={styles.viewForSearch}>
         <StatusBar barStyle="dark-content" />
-        //buttons that transition to different places
+
         <TouchableOpacity
           style={styles.buttons}
           onPress={() => {

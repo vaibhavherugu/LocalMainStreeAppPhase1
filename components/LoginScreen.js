@@ -138,9 +138,9 @@ class LoginScreen extends React.Component {
   render() {
     const {navigate} = this.props.navigation;
     return (
+      //header, text fields and check mark
       <View style={styles.viewForSearch}>
         <StatusBar barStyle="dark-content" />
-        //header, text fields and check mark
         <Text style={styles.header}>Login</Text>
         <TextInput
           style={styles.input2}
@@ -192,6 +192,7 @@ class LoginScreen extends React.Component {
             }}
           />
           <Text
+            //Links and text
             style={{
               marginTop: 3,
               fontFamily:
@@ -200,26 +201,13 @@ class LoginScreen extends React.Component {
             Remember Me
           </Text>
         </View>
-        //Links and text
-        <Text style={styles.buttonTextForSignUp}>Sign up at</Text>
-        <Text
-          style={styles.buttonTextForSignUp2}
-          onPress={() =>
-            Linking.openURL('https://localmainstreet.com/BusinessLogin')
-          }>
-          localmainstreet.com
-        </Text>
         <Text style={styles.buttonTextForSignUp}>
-          Forgot Password? Change it at
+          Sign up or Forgot Password? Go to
         </Text>
         <Text
           style={styles.buttonTextForSignUp2}
-          onPress={() => Linking.openURL('https://localmainstreet.com/Login')}>
+          onPress={() => Linking.openURL('https://localmainstreet.com')}>
           localmainstreet.com
-        </Text>
-        <Text style={styles.buttonTextForSignUp}>Need Help?</Text>
-        <Text style={styles.buttonTextForSignUp}>
-          Contact us at info@localmainstreet.com
         </Text>
       </View>
     );
