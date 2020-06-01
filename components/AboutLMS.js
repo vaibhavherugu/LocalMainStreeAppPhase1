@@ -81,6 +81,16 @@ class AboutLMS extends React.Component {
             }}>
             Image credit to https://icons8.com
           </Text>
+          <Text
+            style={styles.buttonTextForSignUp2}
+            onPress={() => Linking.openURL('https://icons8.com/icon/48423/qr-code')}>
+            QR Code Image Credit: icons8
+        </Text>
+          <Text
+            style={styles.buttonTextForSignUp2}
+            onPress={() => Linking.openURL('https://icons8.com/icon/97619/add-male-user')}>
+            Register Image Credit: icons8
+        </Text>
         </View>
       </ScrollView>
     );
