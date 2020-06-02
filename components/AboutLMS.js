@@ -75,14 +75,7 @@ class AboutLMS extends React.Component {
             source={{ uri: "https://img.icons8.com/wired/64/000000/qr-code.png" }}
           />
           <Text
-            style={{
-              textAlign: 'center',
-              marginTop: 100,
-            }}>
-            Image credit to https://icons8.com
-          </Text>
-          <Text
-            style={styles.buttonTextForSignUp2}
+            style={styles.buttonTextForSignUp}
             onPress={() => Linking.openURL('https://icons8.com/icon/48423/qr-code')}>
             QR Code Image Credit: icons8
         </Text>
@@ -136,11 +129,12 @@ const styles = StyleSheet.create({
     color: '#ffffff',
   },
   buttonTextForSignUp: {
-    color: '#000000',
+    color: '#03b1fc',
     textAlign: 'center',
+    marginTop: 80,
+    textDecorationLine: 'underline'
   },
   buttonTextForSignUp2: {
-    color: '#000000',
     textAlign: 'center',
     color: '#03b1fc',
     textDecorationLine: 'underline',
