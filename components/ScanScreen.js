@@ -159,7 +159,7 @@ class ScanScreen extends Component {
             dollarAmount: dollar,
           });
           this.setState({
-            text: `${decryptedData.nameq}'s gift card balance is $${this.state.dollarAmount}. Enter the amount paid to complete the transaction. If the gift card does not have enough money to complete the transaction, pay the gift card amount in the app and take the remaining from the customer.`,
+            text: `Gift card balance is $${this.state.dollarAmount}. Enter the amount paid to complete the transaction. If the gift card does not have enough money to complete the transaction, pay the gift card amount in the app and take the remaining from the customer.`,
             translate: Platform.OS === 'ios' ? '18%' : 60,
             clear: '',
           });

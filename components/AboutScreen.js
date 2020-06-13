@@ -39,8 +39,7 @@ class AboutScreen extends React.Component {
             fontFamily:
               Platform.OS === 'android' ? 'sans-serif-condensed' : 'Avenir',
           }}>
-          Back in late March, we were hit with a global pandemic caused due to
-          the Coronavirus. As the crisis started to unfold, we saw our schools
+          We saw our schools
           and local businesses being shut down. Besides the serious danger to
           public health, the economy also came to a standstill. We saw small
           businesses, the backbone of America, feel the impact. Our favorite

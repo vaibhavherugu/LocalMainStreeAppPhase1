@@ -192,14 +192,6 @@ class LoginScreen extends React.Component {
             Remember Me
           </Text>
         </View>
-        <Text style={styles.buttonTextForSignUp}>
-          Sign up or Forgot Password? Go to
-        </Text>
-        <Text
-          style={styles.buttonTextForSignUp2}
-          onPress={() => Linking.openURL('https://localmainstreet.com')}>
-          localmainstreet.com
-        </Text>
       </View>
     );
   }
