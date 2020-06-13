@@ -21,21 +21,6 @@ class App extends React.Component {
             options={{ title: 'Scan A Gift Card' }}
           />
           <Stack.Screen
-            name="How It Works"
-            component={AboutLMS}
-            options={{ title: 'How It Works' }}
-          />
-          <Stack.Screen
-            name="About"
-            component={AboutScreen}
-            options={{ title: 'About' }}
-          />
-          <Stack.Screen
-            name="LocalMainStreet"
-            component={HomeScreen}
-            options={{ title: 'LocalMainStreet' }}
-          />
-          <Stack.Screen
             name="Login"
             component={LoginScreen}
             options={{ title: 'Login' }}

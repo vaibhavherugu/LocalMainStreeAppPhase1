@@ -120,7 +120,7 @@ class LoginScreen extends React.Component {
         }
 
         this.toggleRememberMe();
-        this.props.navigation.navigate('LocalMainStreet');
+        this.props.navigation.navigate('Scan A Gift Card');
       })
       .catch(function (err) {
         if (err === 'Error: Request failed with status code 404') {
