@@ -4,9 +4,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './components/LoginScreen';
 import ScanScreen from './components/ScanScreen';
-import HomeScreen from './components/HomeScreen';
-import AboutScreen from './components/AboutScreen';
-import AboutLMS from './components/AboutLMS';
 
 const Stack = createStackNavigator();
 
