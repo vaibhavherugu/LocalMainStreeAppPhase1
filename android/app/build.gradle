@@ -201,9 +201,6 @@ dependencies {
     //also error fix
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //error fix
-    implementation("com.google.android.gms:play-services-gcm:12.0.1")
-                {exclude group: "com.google.android.gms"
-    }
             //noinspect
     //    amicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules

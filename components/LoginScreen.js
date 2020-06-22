@@ -116,7 +116,7 @@ class LoginScreen extends React.Component {
 
         if (!tokenval) {
           console.log('##err', err);
-          alert('Incorrect login credentials. Please try again.');
+          alert('Incorrect login credentials. Please try again. If you are sure that it is correct, please check your internet connection and try again.');
         }
 
         this.toggleRememberMe();
@@ -124,9 +124,9 @@ class LoginScreen extends React.Component {
       })
       .catch(function (err) {
         if (err === 'Error: Request failed with status code 404') {
-          alert('Incorrect login credentials. Please try again.');
+          alert('Incorrect login credentials. Please try again. If you are sure that it is correct, please check your internet connection and try again.');
         } else {
-          alert('Incorrect login credentials. Please try again.');
+          alert('Incorrect login credentials. Please try again. If you are sure that it is correct, please check your internet connection and try again.');
         }
       });
   };

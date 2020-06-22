@@ -50,7 +50,16 @@ class ScanScreen extends Component {
       scaleYs: 0.1,
     });
     const data = e.data;
-    mainId = JSON.parse(data)._id;
+    try {
+      mainId = JSON.parse(data)._id;
+    } catch (error) {
+      this.setState({
+        view: 'none',
+        translate: Platform.OS === 'ios' ? '20%' : 60,
+        text: `Invalid QRCode. If you believe this is a mistake, contact LocalMainStreet at info@localmainstreet.com.`,
+      });
+    }
+
     this.setState({
       reactivate: true,
       view: 'flex',
