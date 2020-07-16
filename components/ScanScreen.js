@@ -56,7 +56,7 @@ class ScanScreen extends Component {
       this.setState({
         view: 'none',
         translate: Platform.OS === 'ios' ? '20%' : 60,
-        text: `Invalid QRCode. If you believe this is a mistake, contact LocalMainStreet at info@localmainstreet.com.`,
+        text: `This QR Code is invalid or has no money left. If you think this is a mistake, please contact info@localmainstreet.com.`,
       });
     }
 
@@ -178,7 +178,7 @@ class ScanScreen extends Component {
           this.setState({
             view: 'none',
             translate: Platform.OS === 'ios' ? '20%' : 60,
-            text: `Invalid QRCode. If you believe this is a mistake, contact LocalMainStreet at info@localmainstreet.com.`,
+            text: `This QR Code is invalid or has no money left. If you think this is a mistake, please contact info@localmainstreet.com.`,
           });
         });
     } catch (err) {
@@ -186,7 +186,7 @@ class ScanScreen extends Component {
       this.setState({
         view: 'none',
         translate: Platform.OS === 'ios' ? '20%' : 60,
-        text: `Invalid QRCode. If you believe this is a mistake, contact LocalMainStreet at info@localmainstreet.com.`,
+        text: `This QR Code is invalid or has no money left. If you think this is a mistake, please contact info@localmainstreet.com.`,
       });
     }
   };
@@ -236,7 +236,7 @@ class ScanScreen extends Component {
     };
     if (data.balance < 0) {
       alert(
-        `Customer does not have enough money to pay. Choose a lower price. $${decrypto.balance} dollars left in account.`,
+        `Customer does not have enough money to pay. Choose a lower price. There are $${decrypto.balance} dollars left in this voucher.`,
       );
       return 0;
     }
@@ -273,6 +273,19 @@ class ScanScreen extends Component {
       })
       .catch((err) => {
         alert('Oops! Something went wrong. Please try again.');
+      });
+  };
+  amountpaidFull = async () => {
+    axios
+      .delete(
+        'https://localmainstreetbackend.herokuapp.com/app/qrcode/' + mainId,
+      )
+      .then((res) => {
+        console.log(JSON.stringify(res));
+        alert("Success! Payment Processed!");
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
   render() {
@@ -321,23 +334,49 @@ class ScanScreen extends Component {
                   onChangeText={this.handleAmount}
                 />
                 <Text></Text>
-                <TouchableOpacity
-                  title="Submit"
-                  style={{
-                    height: 40,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginBottom: 5,
-                    width: 340,
-                    opacity: 1,
-                    backgroundColor: '#000000',
-                    borderRadius: 15,
-                    zIndex: 999999999,
-                    display: this.state.view,
-                  }}
-                  onPress={this.amountpaid}>
-                  <Text style={styles.buttonText}>Submit</Text>
-                </TouchableOpacity>
+                <View style={{ display: "flex", flexDirection: "row" }}>
+                  <TouchableOpacity
+                    title="Submit"
+                    style={{
+                      height: 40,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginBottom: 5,
+                      width: 170,
+                      opacity: 1,
+                      backgroundColor: '#000000',
+                      zIndex: 999999999,
+                      display: this.state.view,
+                      borderBottomLeftRadius: 15,
+                      borderBottomRightRadius: 0,
+                      borderTopLeftRadius: 15,
+                      borderTopRightRadius: 0,
+                    }}
+                    onPress={this.amountpaid}>
+                    <Text style={styles.buttonText}>Submit</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    title="Submit"
+                    style={{
+                      height: 40,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginBottom: 5,
+                      width: 170,
+                      opacity: 1,
+                      backgroundColor: '#fff',
+                      zIndex: 999999999,
+                      display: this.state.view,
+                      borderColor: '#000000',
+                      borderWidth: 1,
+                      borderBottomLeftRadius: 0,
+                      borderBottomRightRadius: 15,
+                      borderTopLeftRadius: 0,
+                      borderTopRightRadius: 15,
+                    }}
+                    onPress={this.amountpaidFull}>
+                    <Text style={styles.buttonText2}>Pay Full Amount</Text>
+                  </TouchableOpacity></View>
                 <Text
                   style={{
                     display: Platform.OS === 'ios' ? 'none' : 'flex',
@@ -404,6 +443,11 @@ class ScanScreen extends Component {
 const styles = StyleSheet.create({
   buttonText: {
     color: '#ffffff',
+    fontFamily: Platform.OS === 'android' ? 'sans-serif-condensed' : 'Avenir',
+    textAlign: 'center',
+  },
+  buttonText2: {
+    color: '#000000',
     fontFamily: Platform.OS === 'android' ? 'sans-serif-condensed' : 'Avenir',
     textAlign: 'center',
   },

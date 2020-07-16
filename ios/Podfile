@@ -113,11 +113,3 @@ target 'LocalMainStreet' do
   end
 end
 
-target 'LocalMainStreet-tvOS' do
-  # Pods for LocalMainStreet-tvOS
-
-  target 'LocalMainStreet-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-end
