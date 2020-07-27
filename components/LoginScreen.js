@@ -3,6 +3,8 @@ import {
   TextInput,
   Image,
   ImageBackground,
+  ActivityIndicator,
+  Modal,
 } from 'react-native';
 import * as React from 'react';
 import axios from 'axios';
@@ -20,7 +22,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 var emails;
 
 class LoginScreen extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -32,19 +33,20 @@ class LoginScreen extends React.Component {
       checked: false,
       rememberMe: false,
       showCheck: 'flex',
+      Loginbtntext: 'flex',
+      LoginbtnActivityIndicator: 'none',
     };
   }
 
   handleUS = (text) => {
-    this.setState({ username: text });
+    this.setState({username: text});
   };
   handlePW = (text) => {
-    this.setState({ password: text });
+    this.setState({password: text});
   };
 
   toggleRememberMe = () => {
-
-    this.setState({ rememberMe: this.state.checked });
+    this.setState({rememberMe: this.state.checked});
 
     if (this.state.checked === true) {
       this.rememberUser();
@@ -52,12 +54,19 @@ class LoginScreen extends React.Component {
     }
   };
 
+  setLoading = (isLoading) => {
+    if (isLoading) {
+      this.setState({Loginbtntext: 'none', LoginbtnActivityIndicator: 'flex'});
+    } else if (!isLoading) {
+      this.setState({Loginbtntext: 'flex', LoginbtnActivityIndicator: 'none'});
+    }
+  };
+
   rememberUser = async () => {
     try {
-
       await AsyncStorage.setItem('username', this.state.username);
       await AsyncStorage.setItem('password', this.state.password);
-      this.setState({ showCheck: 'none' });
+      this.setState({showCheck: 'none'});
     } catch (error) {
       alert(error);
     }
@@ -65,7 +74,6 @@ class LoginScreen extends React.Component {
 
   getRememberedUser = async () => {
     try {
-
       const username = await AsyncStorage.getItem('username');
       const password = await AsyncStorage.getItem('password');
       if (username !== null && password != null) {
@@ -81,7 +89,6 @@ class LoginScreen extends React.Component {
   };
 
   async componentDidMount() {
-
     const username = (await this.getRememberedUser()).username;
     const password = (await this.getRememberedUser()).password;
     this.setState({
@@ -91,12 +98,18 @@ class LoginScreen extends React.Component {
     });
 
     if (this.state.username !== '' && this.state.password != '') {
-      this.setState({ showCheck: 'none' });
+      this.setState({showCheck: 'none'});
     }
   }
 
   onLogin = async (e) => {
     e.preventDefault();
+    this.setLoading(true);
+    if (this.state.username == '' || this.state.password == '') {
+      alert('Please fill out all fields.');
+      this.setLoading(false);
+      return null;
+    }
     const payload = {
       emailb: this.state.username,
       passwordb: this.state.password,
@@ -106,33 +119,48 @@ class LoginScreen extends React.Component {
         'https://localmainstreetbackend.herokuapp.com/app/BusinessLoginAPI/loginB',
         payload,
       )
-      .then((response) => {
+      .then(async (response) => {
         console.log('##res', response);
         if (response.status === 200) {
-          AsyncStorage.setItem('token', JSON.stringify(response.data));
+          await AsyncStorage.setItem('token', JSON.stringify(response.data));
         }
-        const tokenval = AsyncStorage.getItem('token');
+        const tokenval = await AsyncStorage.getItem('token');
         console.log(tokenval);
 
         if (!tokenval) {
           console.log('##err', err);
-          alert('Incorrect login credentials. Please try again. If you are sure that it is correct, please check your internet connection and try again.');
+          alert(
+            'Incorrect login credentials. Please try again. If you are sure that it is correct, please check your internet connection and try again.',
+          );
+          this.setLoading(false);
         }
 
         this.toggleRememberMe();
-        this.props.navigation.navigate('Scan A Gift Card');
+
+        // await AsyncStorage.setItem('emailCheck', this.state.username)
+        // alert(JSON.stringify(AsyncStorage.getItem('emailCheck')))
+        this.setLoading(false);
+        this.props.navigation.navigate('Scan A Gift Card', {
+          email: this.state.username,
+        });
       })
-      .catch(function (err) {
+      .catch((err) => {
         if (err === 'Error: Request failed with status code 404') {
-          alert('Incorrect login credentials. Please try again. If you are sure that it is correct, please check your internet connection and try again.');
+          alert(
+            'Incorrect login credentials. Please try again. If you are sure that they are correct, please check your internet connection and try again.',
+          );
+          this.setLoading(false);
         } else {
-          alert('Incorrect login credentials. Please try again. If you are sure that it is correct, please check your internet connection and try again.');
+          alert(
+            'Incorrect login credentials. Please try again. If you are sure that they are correct, please check your internet connection and try again.',
+          );
+          this.setLoading(false);
         }
       });
   };
 
   render() {
-    const { navigate } = this.props.navigation;
+    const {navigate} = this.props.navigation;
     return (
       <View style={styles.viewForSearch}>
         <StatusBar barStyle="dark-content" />
@@ -157,7 +185,18 @@ class LoginScreen extends React.Component {
           onChangeText={this.handlePW}
         />
         <TouchableOpacity style={styles.buttons} onPress={this.onLogin}>
-          <Text style={styles.buttonText}>Login</Text>
+          <Text
+            style={{
+              color: '#ffffff',
+              fontFamily:
+                Platform.OS === 'android' ? 'sans-serif-condensed' : 'Avenir',
+              display: this.state.Loginbtntext,
+            }}>
+            Login
+          </Text>
+          <ActivityIndicator
+            style={{display: this.state.LoginbtnActivityIndicator}}
+          />
         </TouchableOpacity>
         <View
           style={{

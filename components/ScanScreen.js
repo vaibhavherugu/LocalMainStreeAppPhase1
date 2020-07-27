@@ -42,6 +42,7 @@ class ScanScreen extends Component {
       scaleYs: 1,
       show: false,
       clear: '',
+      email: this.props.route.params.email,
     };
   }
   //decrypts data and checks it: onSuccess
@@ -132,6 +133,14 @@ class ScanScreen extends Component {
         )
         .then((res) => {
           decryptedData = res.data.decryptedData;
+          console.log(decryptedData.emailbusiness)
+          if (decryptedData.emailbusiness !== this.state.email) {
+            this.setState({
+              text: `This QR code was bought with another business. It cannot be redeemed by anyone other than the business owner.`,
+              view: 'none',
+            })
+            return 0;
+          }
           this.setState({
             data: decryptedData,
           });
