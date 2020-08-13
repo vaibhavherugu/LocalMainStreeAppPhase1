@@ -1,6 +1,5 @@
 'use strict';
-import ScrollViewIndicator from 'react-native-scroll-indicator';
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import axios from 'axios';
 import {
   View,
@@ -12,11 +11,11 @@ import {
   Linking,
   Button,
   Platform,
-  Modal,
 } from 'react-native';
+import Modal from 'react-native-modal';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import { RNCamera as Camera } from 'react-native-camera';
-import { ScrollView } from 'react-native-gesture-handler';
+import {RNCamera as Camera} from 'react-native-camera';
+import {ScrollView} from 'react-native-gesture-handler';
 var id;
 var mainId;
 var databasecheck;
@@ -43,6 +42,8 @@ class ScanScreen extends Component {
       show: false,
       clear: '',
       email: this.props.route.params.email,
+      modalVisible: false,
+      modalVisible2: false,
     };
   }
   //decrypts data and checks it: onSuccess
@@ -133,12 +134,12 @@ class ScanScreen extends Component {
         )
         .then((res) => {
           decryptedData = res.data.decryptedData;
-          console.log(decryptedData.emailbusiness)
+          console.log(decryptedData.emailbusiness);
           if (decryptedData.emailbusiness !== this.state.email) {
             this.setState({
               text: `This QR code was bought with another business. It cannot be redeemed by anyone other than the business owner.`,
               view: 'none',
-            })
+            });
             return 0;
           }
           this.setState({
@@ -153,7 +154,7 @@ class ScanScreen extends Component {
             axios
               .delete(
                 'https://localmainstreetbackend.herokuapp.com/app/qrcode/' +
-                mainId,
+                  mainId,
               )
               .then((res) => {
                 console.log(JSON.stringify(res));
@@ -200,9 +201,20 @@ class ScanScreen extends Component {
     }
   };
   handleAmount = (number) => {
-    this.setState({ amount: number });
+    this.setState({amount: number});
     //sets amount to what is put in
   };
+
+  modalPaid = async () => {
+    this.setState({modalVisible: true});
+  };
+  modalPaidFull = async () => {
+    this.setState({modalVisible2: true});
+  };
+  hideModal = async () => {
+    this.setState({modalVisible: false, modalVisible2: false});
+  };
+
   amountpaid = async () => {
     var encrypto;
     var decrypto;
@@ -279,9 +291,11 @@ class ScanScreen extends Component {
       .then((res) => {
         console.log(res);
         alert('Success! Payment Processed!');
+        this.setState({modalVisible: false});
       })
       .catch((err) => {
         alert('Oops! Something went wrong. Please try again.');
+        this.setState({modalVisible: false});
       });
   };
   amountpaidFull = async () => {
@@ -291,17 +305,20 @@ class ScanScreen extends Component {
       )
       .then((res) => {
         console.log(JSON.stringify(res));
-        alert("Success! Payment Processed!");
+        alert('Success! Payment Processed!');
+        this.setState({modalVisible2: false});
       })
       .catch((err) => {
         console.log(err);
+        alert('Oops! Something went wrong. Please try again.');
+        this.setState({modalVisible2: false});
       });
   };
   render() {
-    const { navigate } = this.props.navigation;
+    const {navigate} = this.props.navigation;
     return (
       //scanner
-      <ScrollView style={{ backgroundColor: '#ffffff' }}>
+      <ScrollView style={{backgroundColor: '#ffffff'}}>
         <View style={{}}>
           <QRCodeScanner
             onRead={this.onSuccess}
@@ -343,7 +360,7 @@ class ScanScreen extends Component {
                   onChangeText={this.handleAmount}
                 />
                 <Text></Text>
-                <View style={{ display: "flex", flexDirection: "row" }}>
+                <View style={{display: 'flex', flexDirection: 'row'}}>
                   <TouchableOpacity
                     title="Submit"
                     style={{
@@ -361,7 +378,7 @@ class ScanScreen extends Component {
                       borderTopLeftRadius: 15,
                       borderTopRightRadius: 0,
                     }}
-                    onPress={this.amountpaid}>
+                    onPress={this.modalPaid}>
                     <Text style={styles.buttonText}>Submit</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
@@ -383,9 +400,10 @@ class ScanScreen extends Component {
                       borderTopLeftRadius: 0,
                       borderTopRightRadius: 15,
                     }}
-                    onPress={this.amountpaidFull}>
+                    onPress={this.modalPaidFull}>
                     <Text style={styles.buttonText2}>Pay Full Amount</Text>
-                  </TouchableOpacity></View>
+                  </TouchableOpacity>
+                </View>
                 <Text
                   style={{
                     display: Platform.OS === 'ios' ? 'none' : 'flex',
@@ -435,11 +453,114 @@ class ScanScreen extends Component {
                   style={{
                     display: Platform.OS === 'ios' ? 'none' : 'flex',
                   }}></Text>
-
                 <Text //customer amount info
                   style={styles.texts}>
                   {this.state.text}
                 </Text>
+                {/* <Modal isVisible={true}>
+                  <View
+                    style={{
+                      flex: 1,
+                      backgroundColor: '#fff',
+                      height: '30%',
+                    }}>
+                    <Text>I am the modal content!</Text>
+                  </View>
+                </Modal> */}
+                <Modal isVisible={this.state.modalVisible}>
+                  <View
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      flex: 1,
+                      backgroundColor: '#fff',
+                    }}>
+                    <Text style={{fontSize: 26, textAlign: 'center'}}>
+                      Are you sure you want to do this?
+                    </Text>
+                    <Text></Text>
+                    <TouchableOpacity
+                      title="Yes"
+                      style={{
+                        height: 40,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        marginBottom: 5,
+                        width: 170,
+                        opacity: 1,
+                        backgroundColor: '#000000',
+                        zIndex: 999999999,
+                      }}
+                      onPress={this.amountpaid}>
+                      <Text style={styles.buttonText}>Yes</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      title="No"
+                      style={{
+                        height: 40,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        marginBottom: 5,
+                        width: 170,
+                        opacity: 1,
+                        backgroundColor: '#fff',
+                        zIndex: 999999999,
+
+                        borderColor: '#000000',
+                        borderWidth: 1,
+                      }}
+                      onPress={this.hideModal}>
+                      <Text style={{color: '#000'}}>No</Text>
+                    </TouchableOpacity>
+                  </View>
+                </Modal>
+                <Modal isVisible={this.state.modalVisible2}>
+                  <View
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      flex: 1,
+                      backgroundColor: '#fff',
+                    }}>
+                    <Text style={{fontSize: 26, textAlign: 'center'}}>
+                      Are you sure you want to do this?
+                    </Text>
+                    <Text></Text>
+                    <TouchableOpacity
+                      title="Yes"
+                      style={{
+                        height: 40,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        marginBottom: 5,
+                        width: 170,
+                        opacity: 1,
+                        backgroundColor: '#000000',
+                        zIndex: 999999999,
+                      }}
+                      onPress={this.amountpaidFull}>
+                      <Text style={styles.buttonText}>Yes</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      title="No"
+                      style={{
+                        height: 40,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        marginBottom: 5,
+                        width: 170,
+                        opacity: 1,
+                        backgroundColor: '#fff',
+                        zIndex: 999999999,
+
+                        borderColor: '#000000',
+                        borderWidth: 1,
+                      }}
+                      onPress={this.hideModal}>
+                      <Text style={{color: '#000'}}>No</Text>
+                    </TouchableOpacity>
+                  </View>
+                </Modal>
               </ScrollView>
             }
           />
