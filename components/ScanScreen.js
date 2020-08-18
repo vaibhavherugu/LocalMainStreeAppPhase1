@@ -286,6 +286,7 @@ class ScanScreen extends Component {
         'https://localmainstreetbackend.herokuapp.com/app/qrcode/' + mainId,
         {
           encData: JSON.parse(encData),
+          balance: data.balance,
         },
       )
       .then((res) => {

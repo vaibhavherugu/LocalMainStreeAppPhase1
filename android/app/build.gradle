@@ -132,8 +132,8 @@ android {
         applicationId "com.localmainstreet"
         // minSdkVersion rootProject.ext.minSdkVersion
         // targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 5
-        versionName "5.0"
+        versionCode 6
+        versionName "6.0"
         minSdkVersion 16 
         targetSdkVersion 28
         multiDexEnabled true
