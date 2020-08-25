@@ -35,6 +35,7 @@ class LoginScreen extends React.Component {
       showCheck: 'flex',
       Loginbtntext: 'flex',
       LoginbtnActivityIndicator: 'none',
+      stripeIDres: '',
     };
   }
 
@@ -68,7 +69,8 @@ class LoginScreen extends React.Component {
       await AsyncStorage.setItem('password', this.state.password);
       this.setState({showCheck: 'none'});
     } catch (error) {
-      alert(error);
+      console.log(error);
+      alert('Something went wrong, please try again.');
     }
   };
 
@@ -84,7 +86,8 @@ class LoginScreen extends React.Component {
         return stuff;
       }
     } catch (error) {
-      alert(error);
+      console.log(error);
+      alert('Something went wrong, please try again.');
     }
   };
 
@@ -111,21 +114,48 @@ class LoginScreen extends React.Component {
       return null;
     }
     const payload = {
-      emailb: this.state.username,
-      passwordb: this.state.password,
+      email: this.state.username,
+      password: this.state.password,
     };
     await axios
       .post(
-        'https://localmainstreetbackend.herokuapp.com/app/BusinessLoginAPI/loginB',
+        'https://localmainstreetbackend.herokuapp.com/app/LoginAPI/login',
         payload,
       )
       .then(async (response) => {
         console.log('##res', response);
         if (response.status === 200) {
-          await AsyncStorage.setItem('token', JSON.stringify(response.data));
+          await AsyncStorage.setItem(
+            'token',
+            JSON.stringify(response.data.token),
+          );
+          if (response.data.email == undefined || null || NaN) {
+            await AsyncStorage.setItem(
+              'emailb',
+              JSON.stringify(response.data.emailb),
+            );
+          } else {
+            await AsyncStorage.setItem(
+              'email',
+              JSON.stringify(response.data.email),
+            );
+          }
+
+          await AsyncStorage.setItem(
+            'fname',
+            JSON.stringify(response.data.fname),
+          );
+          await AsyncStorage.setItem(
+            'lname',
+            JSON.stringify(response.data.lname),
+          );
         }
-        const tokenval = await AsyncStorage.getItem('token');
+        const tokenval = response.data.token;
         console.log(tokenval);
+        this.setState({
+          stripeIDres: response.data.stripeId,
+        });
+        console.log('tokenval', tokenval);
 
         if (!tokenval) {
           console.log('##err', err);
@@ -135,16 +165,33 @@ class LoginScreen extends React.Component {
           this.setLoading(false);
         }
 
+        if (response.data.url === '/Shop') {
+          await AsyncStorage.removeItem('type');
+          await AsyncStorage.setItem('type', 'customer');
+          this.props.navigation.navigate('Shop');
+        } else if (
+          response.data.url === '/Dashboard' &&
+          response.data.stripeId
+        ) {
+          await AsyncStorage.removeItem('type');
+          await AsyncStorage.setItem('type', 'business');
+          this.props.navigation.navigate('Scan A Gift Card', {
+            email: this.state.username,
+          });
+        } else {
+          alert(
+            'Whoops! Something went wrong. Possible causes are that this account has not registered properly.',
+          );
+        }
+
         this.toggleRememberMe();
 
         // await AsyncStorage.setItem('emailCheck', this.state.username)
         // alert(JSON.stringify(AsyncStorage.getItem('emailCheck')))
         this.setLoading(false);
-        this.props.navigation.navigate('Scan A Gift Card', {
-          email: this.state.username,
-        });
       })
       .catch((err) => {
+        console.log(err);
         if (err === 'Error: Request failed with status code 404') {
           alert(
             'Incorrect login credentials. Please try again. If you are sure that they are correct, please check your internet connection and try again.',

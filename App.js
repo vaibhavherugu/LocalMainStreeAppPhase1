@@ -1,9 +1,10 @@
 import * as React from 'react';
 import 'react-native-gesture-handler';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import LoginScreen from './components/LoginScreen';
 import ScanScreen from './components/ScanScreen';
+import ShopScreen from './components/ShopScreen';
 
 const Stack = createStackNavigator();
 
@@ -15,12 +16,17 @@ class App extends React.Component {
           <Stack.Screen
             name="Scan A Gift Card"
             component={ScanScreen}
-            options={{ title: 'Scan A Gift Card' }}
+            options={{title: 'Scan A Gift Card'}}
           />
           <Stack.Screen
             name="Login"
             component={LoginScreen}
-            options={{ title: 'Login' }}
+            options={{title: 'Login'}}
+          />
+          <Stack.Screen
+            name="Shop"
+            component={ShopScreen}
+            options={{title: 'Shop'}}
           />
         </Stack.Navigator>
       </NavigationContainer>

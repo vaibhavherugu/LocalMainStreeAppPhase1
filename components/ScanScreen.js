@@ -286,12 +286,17 @@ class ScanScreen extends Component {
         'https://localmainstreetbackend.herokuapp.com/app/qrcode/' + mainId,
         {
           encData: JSON.parse(encData),
-          balance: data.balance,
         },
       )
       .then((res) => {
         console.log(res);
-        alert('Success! Payment Processed!');
+        if (this.state.amount == null || '') {
+          alert('Please enter an amount.');
+          this.setState({modalVisible: false});
+        } else {
+          alert('Success! Payment Processed!');
+          this.setState({modalVisible: false});
+        }
         this.setState({modalVisible: false});
       })
       .catch((err) => {
